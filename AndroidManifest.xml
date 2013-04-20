@@ -6,7 +6,37 @@
     <uses-sdk android:minSdkVersion="11"
             android:maxSdkVersion="17"
             android:targetSdkVersion="15"/>
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+
+    <!-- REQUIRED PERMISSIONS (for Urban Airship GCM) -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- This app has permission to register with GCM and receive message -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- MODIFICATION REQUIRED - Replace "com.homedev.MyHome" with your package name -->
+    <permission android:name="com.homedev.MyHome.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.homedev.MyHome.permission.C2D_MESSAGE" />
+    <!-- The two elements above ensure that only this application can receive the messages and registration result -->
+    <!--  END Urban Airship Required Permissions -->
+
+    <!-- OPTIONAL Urban Airship Settings -->
+    <!-- REQUIRED FOR LOCATION -->
+    <!-- Use ACCESS_COARSE_LOCATION if GPS access is not necessary -->
+    <!-- uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
+                 android:name="com.homedev.MyHome.HomeApp"
+                 android:debuggable="true"
+                 android:allowClearUserData="true"
+                 android:enabled="true">
         <activity android:name=".MainActivity"
                   android:label="@string/app_name">
             <intent-filter>
@@ -14,5 +44,45 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- REQUIRED for Urban Airship GCM-->
+        <receiver android:name="com.urbanairship.CoreReceiver" />
+        <receiver android:name="com.urbanairship.push.GCMPushReceiver"
+                  android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <!-- MODIFICATION REQUIRED - Use your package name as the category -->
+                <category android:name="com.homedev.MyHome" />
+            </intent-filter>
+            <!--  REQUIRED for detecting when the application is upgraded so it can request a new GCM ID -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.urbanairship.push.PushService"
+                 android:label="Push Notification Service"/>
+        <service android:name="com.urbanairship.push.PushWorkerService"
+                 android:label="Push Notification Worker Service"/>
+        <service android:name="com.urbanairship.analytics.EventService"
+                 android:label="Event Service"/>
+
+        <!-- This is required for persisting preferences related to push and location -->
+        <!-- MODIFICATION REQUIRED - Use your package name + ".urbanairship.provider" in the android:authorities -->
+        <provider android:name="com.urbanairship.UrbanAirshipProvider"
+                  android:authorities="com.homedev.MyHome.urbanairship.provider"
+                  android:exported="false"
+                  android:multiprocess="true" />
+        <!-- END OF REQUIRED ITEMS -->
+
+        <!-- OPTIONAL (for segments support) -->
+        <service android:name="com.urbanairship.location.LocationService" android:label="Segments Service"/>
+
+        <!-- OPTIONAL, if you want to receive push, push opened and registration completed intents -->
+        <!-- Replace the receiver below with your package and class name -->
+        <receiver android:name="com.homedev.MyHome.IntentReceiver" />
     </application>
 </manifest>
