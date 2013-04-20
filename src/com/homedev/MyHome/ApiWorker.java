@@ -11,7 +11,7 @@ public class ApiWorker {
         return apiUrl + "/system/ping";
     }
 
-    public static String subscribe() {
-        return apiUrl + "/subscribe";
+    public static String update() {
+        return apiUrl + "/update";
     }
 }
