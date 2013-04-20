@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.homedev.MyHome.network.RegisterTask;
 import com.urbanairship.UAirship;
 import com.urbanairship.push.PushManager;
 
@@ -73,6 +74,7 @@ public class IntentReceiver extends BroadcastReceiver {
         } else if (action.equals(PushManager.ACTION_REGISTRATION_FINISHED)) {
             Log.i(LOG_TAG, "Registration complete. APID:" + intent.getStringExtra(PushManager.EXTRA_APID)
                     + ". Valid: " + intent.getBooleanExtra(PushManager.EXTRA_REGISTRATION_VALID, false));
+            new RegisterTask(intent.getStringExtra(PushManager.EXTRA_APID)).execute();
         }
 
     }
