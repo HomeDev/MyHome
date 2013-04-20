@@ -6,24 +6,28 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.*;
+import com.homedev.MyHome.adapter.PlacesAutoCompleteAdapter;
 import com.homedev.MyHome.model.Address;
 import com.homedev.MyHome.util.StringUtils;
 import com.homedev.MyHome.adapter.AddressListAdapter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeListActivity extends Activity {
-    private Button okButton;
-    private Button cancelButton;
-    private EditText streetEdit;
-    private EditText homeNumberEdit;
-    private EditText homeIndexEdit;
+public class HomeListActivity extends Activity implements AdapterView.OnItemClickListener {
     private List<Address> addressList;
     private ArrayAdapter<Address> addressArrayAdapter;
     private ListView addressListView;
@@ -32,48 +36,16 @@ public class HomeListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.address_register_layout);
-        okButton=(Button) findViewById(R.id.home_ok);
-        cancelButton = (Button) findViewById(R.id.home_cancel);
-        streetEdit=(EditText)findViewById(R.id.street);
-        homeNumberEdit=(EditText)findViewById(R.id.home_number);
-        homeIndexEdit=(EditText)findViewById(R.id.home_index);
-        okButton.setEnabled(false);
-        addressListView=(ListView) findViewById(R.id.home_list);
-        streetEdit.addTextChangedListener(new EnterHomeListener());
-        okButton.setOnClickListener(new OnOkClickListener());
-        addressList=new ArrayList<Address>();
-        addressArrayAdapter = new AddressListAdapter(this, R.layout.address_item_layout, addressList);
-
-
+        AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.address_finder);
+        autoCompleteTextView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.address_item_layout));
+        autoCompleteTextView.setOnItemClickListener(this);
     }
 
-    private class EnterHomeListener implements TextWatcher{
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            okButton.setEnabled(!StringUtils.isNullOrEmpty(streetEdit.getText().toString())
-                    &&!StringUtils.isNullOrEmpty(homeNumberEdit.getText().toString()));
-        }
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        String str = (String) adapterView.getItemAtPosition(position);
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
-    private class OnOkClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            Address address=new Address(streetEdit.getText().toString()
-                    ,homeNumberEdit.getText().toString()
-                    ,homeIndexEdit.getText().toString());
-            addressList.add(address);
-            addressArrayAdapter.notifyDataSetChanged();
-        }
-    }
+
+
 }
