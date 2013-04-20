@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Мой дом</string>
+    <string name="db_name">my_home</string>
+    <integer name="db_version">7</integer>
     <string name="address">Адрес</string>
     <string name="street">Улица</string>
     <string name="house_number">Номер дома</string>
     <string name="home_index">Корпус</string>
     <string name="ok">ОК</string>
     <string name="cancel">Отмена</string>
+    <string name="hotWater">Горячая вода</string>
+    <string name="coldWater">Холодная вода</string>
+    <string name="gas">Газ</string>
+    <string name="electricity">Электричество</string>
+    <string name="hot">Теплоснабжение</string>
+    <string name="announce">Оповещение</string>
     <color name="button_background_color">#777777</color>
 </resources>

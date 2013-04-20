@@ -2,10 +2,12 @@ package com.homedev.MyHome;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import com.homedev.MyHome.db.RegistredAddressesDBHelper;
 import com.urbanairship.push.PushManager;
 
 import com.homedev.MyHome.network.*;
@@ -23,7 +25,11 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(LOG_TAG, "onCreate");
-
+        SQLiteOpenHelper helper = new RegistredAddressesDBHelper(
+                this,
+                getResources().getString(R.string.db_name),
+                getResources().getInteger(R.integer.db_version));
+        helper.getWritableDatabase();
         setContentView(R.layout.main);
 
         String apid = PushManager.shared().getAPID();
@@ -34,7 +40,7 @@ public class MainActivity extends Activity {
 
         Log.i(LOG_TAG, "My Application onCreate - App APID: " + apid);
 
-        imageButton = (ImageButton)findViewById(R.id.add);
+        imageButton = (ImageButton) findViewById(R.id.add);
         imageButton.setOnClickListener(new AddClickListener());
 
     }
