@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MyHome</string>
+    <string name="app_name">Мой дом</string>
+    <string name="address">Адрес</string>
+    <string name="street">Улица</string>
+    <string name="house_number">Номер дома</string>
+    <string name="home_index">Корпус</string>
+    <string name="ok">ОК</string>
+    <string name="cancel">Отмена</string>
 </resources>

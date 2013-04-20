@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+        >
+    <ListView   android:id="@+id/home_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="#FFFFFF"/>
+    <LinearLayout  android:layout_width="fill_parent"
+                   android:layout_height="fill_parent"
+                   android:orientation="vertical"
+                  >
+        <GridLayout
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="4"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/street"
+                    />
+            <EditText android:layout_height="wrap_content"
+                      android:layout_width="match_parent"
+                      android:layout_column="1"
+                      android:layout_row="1"
+                      android:id="@+id/street"
+                    />
+            <TextView
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/house_number"
+                    />
+
+            <EditText android:layout_height="wrap_content"
+                      android:layout_width="match_parent"
+                      android:layout_column="1"
+                      android:layout_row="2"
+                      android:id="@+id/home_number"
+                    />
+
+                <TextView
+                    android:layout_row="3"
+                    android:layout_column="0"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/home_index"
+                    />
+
+            <EditText android:layout_height="wrap_content"
+                      android:layout_width="match_parent"
+                      android:layout_column="1"
+                      android:layout_row="3"
+                      android:id="@+id/home_index"
+                    />
+
+        </GridLayout>
+
+        <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                >
+               <Button android:layout_width="fill_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1"
+                       android:text="@string/ok"
+                       android:id="@+id/home_ok"
+                       />
+            <Button android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cancel"
+                    android:id="@+id/home_cancel"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
