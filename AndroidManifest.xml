@@ -6,8 +6,45 @@
     <uses-sdk android:minSdkVersion="11"
             android:maxSdkVersion="17"
             android:targetSdkVersion="15"/>
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+    <!-- REQUIRED PERMISSIONS (for Urban Airship GCM) -->
+        <uses-permission android:name="android.permission.INTERNET"/>
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        <uses-permission android:name="android.permission.VIBRATE"/>
+
+        <!-- GCM requires a Google account. -->
+        <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+        <!-- Keeps the processor from sleeping when a message is received. -->
+        <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+        <!-- This app has permission to register with GCM and receive message -->
+        <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+        <!-- MODIFICATION REQUIRED - Replace "com.homedev.MyHome" with your package name -->
+        <permission android:name="com.homedev.MyHome.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+        <uses-permission android:name="com.homedev.MyHome.permission.C2D_MESSAGE" />
+        <!-- The two elements above ensure that only this application can receive the messages and registration result -->
+        <!--  END Urban Airship Required Permissions -->
+
+        <!-- OPTIONAL Urban Airship Settings -->
+        <!-- REQUIRED FOR LOCATION -->
+        <!-- Use ACCESS_COARSE_LOCATION if GPS access is not necessary -->
+        <!-- uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /-->
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+        <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
+                     android:name="com.homedev.MyHome.HomeApp"
+                     android:debuggable="true"
+                     android:allowClearUserData="true"
+                     android:enabled="true">
         <activity android:name=".MainActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".HomeListActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -54,12 +91,5 @@
         <!-- OPTIONAL, if you want to receive push, push opened and registration completed intents -->
         <!-- Replace the receiver below with your package and class name -->
         <receiver android:name="com.homedev.MyHome.IntentReceiver" />
-        <activity android:name=".HomeListActivity"
-                  android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
     </application>
 </manifest>
