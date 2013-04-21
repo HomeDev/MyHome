@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Мой дом</string>
     <string name="db_name">my_home</string>
-    <integer name="db_version">3</integer>
+    <integer name="db_version">10</integer>
     <string name="address">Адрес</string>
     <string name="street">Улица</string>
     <string name="house_number">Номер дома</string>
@@ -16,4 +16,5 @@
     <string name="hot">Т</string>
     <string name="announce">Н</string>
     <color name="button_background_color">#777777</color>
+
 </resources>

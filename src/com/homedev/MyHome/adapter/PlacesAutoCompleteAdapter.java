@@ -21,7 +21,9 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements F
     }
 
     public String getItem(int index){
-        return resultList.get(index);
+        String result = resultList.get(index);
+        String[] data =  result.split(",");
+        return data[data.length-1];
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.homedev.MyHome.R;
 import com.homedev.MyHome.model.Address;
 import com.homedev.MyHome.model.MessageType;
 import com.homedev.MyHome.model.Street;
+import com.homedev.MyHome.model.TextAddress;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.List;
 import static com.homedev.MyHome.model.Address.Addresses;
 import static com.homedev.MyHome.model.MessageType.MessageTypes.*;
 import static com.homedev.MyHome.model.Street.Streets;
+import static com.homedev.MyHome.model.Street.Streets.ID;
+import static com.homedev.MyHome.model.Street.Streets.STREET_NAME;
+import static com.homedev.MyHome.model.Street.Streets.TABLE_NAME;
 
 public class RegistredAddressesDBHelper extends SQLiteOpenHelper{
     private Resources resources;
@@ -31,14 +35,10 @@ public class RegistredAddressesDBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        StreetDbHelper.createStreetsTable(db);
-        AddressDbHelper.createAddressTable(db);
-        addStreets(db);
-
-        MessageTypeDbHelper.createMessageTypeTable(db);
-        addMessageTypes(db);
-        MessageDbHelper.createMessageTable(db);
-
+        String query = "CREATE TABLE text_address (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "address TEXT NOT NULL)";
+        db.execSQL(query);
     }
 
 
@@ -117,6 +117,7 @@ public class RegistredAddressesDBHelper extends SQLiteOpenHelper{
           MessageTypeDbHelper.dropTable(db);
           AddressDbHelper.dropTable(db);
           StreetDbHelper.dropTable(db);
+          db.execSQL("DROP TABLE text_address");
           onCreate(db);
     }
 
@@ -127,5 +128,26 @@ public class RegistredAddressesDBHelper extends SQLiteOpenHelper{
 
     public static RegistredAddressesDBHelper getInstance() {
         return instance;
+    }
+
+    public void insert(TextAddress textAddress) {
+        SQLiteDatabase db = getWritableDatabase();
+        long id = db.insert("text_address", null, textAddress.toContentValues());
+        textAddress.setId(id);
+    }
+
+    public List<TextAddress> findAllAddresses() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id, address FROM text_address", null);
+        List<TextAddress> result= new ArrayList<TextAddress>();
+        if (!cursor.moveToFirst()){
+            return result;
+        }
+        do {
+            Long id = cursor.getLong(cursor.getColumnIndex("id"));
+            String address = cursor.getString(cursor.getColumnIndex("address"));
+            result.add(new TextAddress(id, address));
+        } while (cursor.moveToNext());
+        return result;
     }
 }
