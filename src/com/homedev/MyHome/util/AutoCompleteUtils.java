@@ -1,6 +1,8 @@
 package com.homedev.MyHome.util;
 
 import android.util.Log;
+import com.homedev.MyHome.db.RegistredAddressesDBHelper;
+import com.homedev.MyHome.model.Address;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AutoCompleteUtils {
 
@@ -24,45 +27,8 @@ public class AutoCompleteUtils {
     private static final String OUT_JSON ="/json";
 
 
-    public final static ArrayList<String> autoComplete (String input){
-        ArrayList<String> resultList = null;
-
-        HttpURLConnection conn = null;
-        StringBuilder jsonResults = new StringBuilder();
-
-        try{
-            StringBuilder sb = new StringBuilder(PLACES_API_BASE+TYPE_AUTOCOMPLETE+OUT_JSON);
-            sb.append("?sensor=false&key=API_KEY");
-            sb.append("&components=country:ru");
-            sb.append("&input="+ URLEncoder.encode(input, "uft8"));
-            URL url = new URL(sb.toString());
-            conn = (HttpURLConnection) url.openConnection();
-            InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
-            int read;
-            char[] buff= new char[1024];
-            while ((read = in.read(buff))!=1){
-                jsonResults.append(buff, 0, read);
-            }
-        }   catch (MalformedURLException e){
-            Log.e(LOG_TAG, "Error processing Places API URL", e);
-            return resultList;
-        }  catch (IOException e){
-            Log.e(LOG_TAG, "Error connecting to Places API");
-            return resultList;
-        }
-
-        try{
-            JSONObject jsonObject = new JSONObject(jsonResults.toString());
-            JSONArray predsJsonArray = jsonObject.getJSONArray("predictions");
-
-            resultList = new ArrayList<String>(predsJsonArray.length());
-            for (int i=0; i<predsJsonArray.length(); i++){
-                resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
-            }
-        } catch (JSONException e){
-            Log.e(LOG_TAG, "Cannot process JSON results",e);
-        }
+    public final static List<Address> autoComplete (String input){
+        List<Address> resultList = RegistredAddressesDBHelper.getInstance().findAddress(input);
         return resultList;
     }
 

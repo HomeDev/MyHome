@@ -20,7 +20,7 @@ import static com.homedev.MyHome.model.Street.Streets;
 public class RegistredAddressesDBHelper extends SQLiteOpenHelper{
     private Resources resources;
 
-    private RegistredAddressesDBHelper instance;
+    private static RegistredAddressesDBHelper instance;
 
 
     public RegistredAddressesDBHelper(Context context, String app_name, int dbVersion) {
@@ -32,8 +32,9 @@ public class RegistredAddressesDBHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         StreetDbHelper.createStreetsTable(db);
+        AddressDbHelper.createAddressTable(db);
         addStreets(db);
-         AddressDbHelper.createAddressTable(db);
+
         MessageTypeDbHelper.createMessageTypeTable(db);
         addMessageTypes(db);
         MessageDbHelper.createMessageTable(db);
@@ -42,8 +43,9 @@ public class RegistredAddressesDBHelper extends SQLiteOpenHelper{
 
 
     private void addStreets(SQLiteDatabase db) {
+        db.beginTransaction();
         Street street =  addStreet(db, new Street("20-я линия"));
-        addAddress(db, new Address(street, "3", null, "д"));
+        addAddress(db, new Address(street, "3", "3", "д"));
         street=addStreet(db, new Street("Жукова"));
         addAddress(db, new Address(street, "24", "2", null));
         street=addStreet(db, new Street("Кирова"));
@@ -56,6 +58,7 @@ public class RegistredAddressesDBHelper extends SQLiteOpenHelper{
         addAddress(db, new Address(street, "34", null, null));
         street= addStreet(db, new Street("проспект Мира"));
         addAddress(db, new Address(street, "38", null, null));
+        db.endTransaction();
     }
 
     private void addAddress(SQLiteDatabase db, Address address) {
@@ -81,10 +84,10 @@ public class RegistredAddressesDBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT * FROM "+ Addresses.TABLE_NAME+","+Streets.TABLE_NAME+" WHERE " +
                 Addresses.TABLE_NAME+"."+Addresses.STREET_ID+"="+Streets.TABLE_NAME+"."+Streets.ID+" " +
-                "AND "+Streets.STREET_NAME+" LIKE %"+text+"%";
+                "AND "+Streets.STREET_NAME+"='%"+text+"%'";
         Cursor cursor = db.rawQuery(query, null);
         ArrayList<Address> result = new ArrayList<Address>();
-        if (cursor.getCount()==0){
+        if (cursor.getCount()<=0){
             return result;
         }
         cursor.moveToFirst();
@@ -122,7 +125,7 @@ public class RegistredAddressesDBHelper extends SQLiteOpenHelper{
        onUpgrade(db, oldVersion, newVersion);
     }
 
-    public RegistredAddressesDBHelper getInstance() {
+    public static RegistredAddressesDBHelper getInstance() {
         return instance;
     }
 }
