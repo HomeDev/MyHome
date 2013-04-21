@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Мой дом</string>
     <string name="db_name">my_home</string>
-    <integer name="db_version">7</integer>
+    <integer name="db_version">9</integer>
     <string name="address">Адрес</string>
     <string name="street">Улица</string>
     <string name="house_number">Номер дома</string>

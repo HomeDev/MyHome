@@ -1,17 +1,28 @@
 package com.homedev.MyHome.model;
 
-public class Address {
-    private String street;
+import android.content.ContentValues;
+
+import static com.homedev.MyHome.model.Address.Addresses.*;
+
+public class Address  extends DomainEntry<Long>{
+    private Street street;
     private String houseNumber;
     private String index;
+    private String suffix;
 
-    public Address(String street, String houseNumber, String index) {
-        this.street = street;
+
+    public Address(Street street, String houseNumber, String index, String suffix) {
+        this.street= street;
         this.houseNumber = houseNumber;
         this.index = index;
+        this.suffix=suffix;
     }
 
-    public String getStreet() {
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public Street getStreet() {
         return street;
     }
 
@@ -57,4 +68,30 @@ public class Address {
     public String toUiString(){
           return new StringBuilder("").append(street).append(",").append(houseNumber).append("/").append(index).toString();
     }
+
+    @Override
+    public ContentValues toContentValues() {
+        ContentValues contentValues = new ContentValues();
+        if (getId()!=null){
+             contentValues.put(ID, getId());
+        }
+        contentValues.put(HOUSE_NUMBER, getHouseNumber());
+        contentValues.put(HOUSE_INDEX, getIndex());
+        contentValues.put(HOUSE_SUFFIX, getSuffix());
+        contentValues.put(STREET_ID, getStreet().getId());
+        return contentValues;
+    }
+
+    public static final class Addresses {
+        private Addresses() {
+            throw new UnsupportedOperationException();
+        }
+        public final static String TABLE_NAME="address";
+        public final static String ID = "address_id";
+        public final static String STREET_ID = "street_id";
+        public final static String HOUSE_NUMBER = "house_number";
+        public final static String HOUSE_INDEX = "house_index";
+        public final static String HOUSE_SUFFIX = "house_suffix";
+    }
+
 }
