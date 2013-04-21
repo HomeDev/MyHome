@@ -10,37 +10,46 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_layout" >
-        <ImageButton
+        <ToggleButton
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                android:background="@color/button_background_color"
-                android:layout_weight="1" android:src="@drawable/cold_water64" />
-        <ImageButton
+                android:textOn="@string/coldWater"
+                android:textOff="@string/coldWater"
+                android:layout_weight="1" />
+        <ToggleButton
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:background="@color/button_background_color"
-            android:layout_weight="1" android:src="@drawable/hot_water64" />
-        <ImageButton
+            android:layout_weight="1"
+            android:textOn="@string/hotWater"
+            android:textOff="@string/hotWater"/>
+        <ToggleButton
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                android:background="@color/button_background_color"
-                android:layout_weight="1" android:src="@drawable/gas64" />
-        <ImageButton
+                android:textOn="@string/gas"
+                android:textOff="@string/gas"
+                android:layout_weight="1"  />
+        <ToggleButton
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                android:background="@color/button_background_color"
-                android:layout_weight="1" android:src="@drawable/thunder64" />
-        <ImageButton
+                android:text="@string/electricity"
+                android:textOn="@string/electricity"
+                android:textOff="@string/electricity"
+                  android:layout_weight="1" />
+        <ToggleButton
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                android:background="@color/button_background_color"
-                android:layout_weight="1" android:src="@drawable/warm64" />
+                android:layout_weight="1"
+                android:text="@string/hot"
+                android:textOn="@string/hot"
+                android:textOff="@string/hot"/>
 
-        <ImageButton
+        <ToggleButton
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                android:background="@color/button_background_color"
-                android:layout_weight="1" android:src="@drawable/announce64" />
+                android:layout_weight="1"
+                android:text="@string/announce"
+                android:textOn="@string/announce"
+                android:textOff="@string/announce"/>
     </LinearLayout>
     <LinearLayout android:orientation="horizontal"
                   android:layout_weight="1"

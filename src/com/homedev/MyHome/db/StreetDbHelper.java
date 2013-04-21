@@ -15,8 +15,13 @@ public class StreetDbHelper {
     }
 
 
-    public static final void dropTable(SQLiteDatabase db){
-        db.execSQL("DROP TABLE "+ TABLE_NAME);
+    public static final void dropTable(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE " + TABLE_NAME);
+    }
+
+    public static final void insert(SQLiteDatabase db, Street street) {
+        Long id = db.insert(TABLE_NAME, null, street.toContentValues());
+        street.setId(id);
     }
 
 }
