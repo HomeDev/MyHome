@@ -36,8 +36,10 @@ public class HomeListActivity extends Activity implements AdapterView.OnItemClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.address_register_layout);
+        addressListView = (ListView) findViewById(R.id.home_list);
         AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.address_finder);
         autoCompleteTextView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.address_item_layout));
+        addressListView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.address_item_layout));
         autoCompleteTextView.setOnItemClickListener(this);
     }
 
