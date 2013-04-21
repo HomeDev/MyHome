@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import com.homedev.MyHome.db.RegistredAddressesDBHelper;
 import com.homedev.MyHome.model.TextAddress;
 import com.urbanairship.push.PushManager;
@@ -22,6 +23,8 @@ public class MainActivity extends Activity {
 
     private ImageButton imageButton;
     private Button houseButton;
+    private ListView listView;
+    private ListView events_empty;
 
     /**
      * Called when the activity is first created.
@@ -49,6 +52,8 @@ public class MainActivity extends Activity {
         imageButton.setOnClickListener(new AddClickListener());
 
         houseButton = (Button) findViewById(R.id.house1);
+        listView = (ListView) findViewById(R.id.events);
+        events_empty = (ListView) findViewById(R.id.events_empty);
 
     }
 
@@ -60,9 +65,14 @@ public class MainActivity extends Activity {
             imageButton.setVisibility(View.GONE);
             houseButton.setText(textAddresses.get(textAddresses.size()-1).getAddress().replaceAll(";"," "));
             houseButton.setVisibility(View.VISIBLE);
+            events_empty.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+
         } else {
             imageButton.setVisibility(View.VISIBLE);
             houseButton.setVisibility(View.GONE);
+            events_empty.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
         }
     }
 

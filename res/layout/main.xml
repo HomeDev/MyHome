@@ -58,9 +58,15 @@
                 android:background="@color/button_background_color">
     <ListView android:layout_height="fill_parent"
               android:layout_width="match_parent"
-           android:entries="@array/list_items">
+              android:entries="@array/list_items"
+            android:id="@+id/events">
 
             </ListView>
+        <ListView android:layout_height="fill_parent"
+                  android:layout_width="match_parent"
+                  android:id="@+id/events_empty">
+
+        </ListView>
     </LinearLayout>
     <LinearLayout
                   android:layout_height="wrap_content"
